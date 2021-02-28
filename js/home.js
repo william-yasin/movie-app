@@ -129,8 +129,10 @@
 
     const movieTitle = $("#movieTitle").val();
     const movieRating = $("#movieRating").val();
+
     createMovie({title: movieTitle , rating:movieRating})
         .then(console.log)
+        .catch(console.error);
 
     //Allow users to edit existing movies
 
