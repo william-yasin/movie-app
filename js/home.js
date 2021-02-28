@@ -97,8 +97,8 @@
     //This Function fetch all Movies
 
     const getMovie = new Promise(((resolve, reject) => {
-      resolve(fetch(URL));
-      reject("Error")
+        resolve(fetch(URL));
+        reject("Error")
     }))
         .then(response => response.json())
         .then(data => console.log(data))
@@ -106,12 +106,13 @@
 
     //Allow users to add new movies
 
-    const createMovie = movie => $("#addMovie").click(() =>{
-        const movieTitle = $("#movieTitle").val();
-        const movieRating = $("#movieRating").val();
+
+    const createMovie = movie => $("#addMovie").click(() => {
+        // const movieTitle = $("#movieTitle").val();
+        // const movieRating = $("#movieRating").val();
         // const movieId = $("#movieId").val();
-        fetch(URL, {
-            method:'POST',
+        fetch(`${URL}`, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -122,26 +123,26 @@
             )
         })
             .then(response => response.json())
-            .then(data => {
-                console.log(`Successfully added ${JSON.stringify(data)}`);
+            .then(movie => {
+                console.log(`Successfully added ${JSON.stringify(movie)}`);
+                return movie;
             });
-        });
+    });
 
-    const movieTitle = "";
-    const movieRating = "";
-
-    createMovie({title: movieTitle , rating:movieRating})
-        .then(console.log)
-        .catch(console.error);
+    const movieTitle = $("#movieTitle").val();
+    const movieRating = $("#movieRating").val();
+    createMovie({title: movieTitle, rating: movieRating})
+    .then(console.log)
+    .catch(console.error);
 
     //Allow users to edit existing movies
 
-    const editMovie = movie => $("#editMovie").click (() => {
+    const editMovie = movie => $("#editMovie").click(() => {
         const editMovieInput = $("#editMovieInput").val();
         const movieTitle = $("#movieTitle").text();
         const movieRating = $("#movieRating").text();
         // const movieId = $("#movieId").text();
-        fetch(`${URL}/${editMovieInput}`,{
+        fetch(`${URL}/${editMovieInput}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -157,11 +158,6 @@
                 console.log(`Successfully edited: ${JSON.stringify(data)}`);
             });
     });
-
-
-
-
-
 
 
 }
