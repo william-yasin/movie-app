@@ -127,12 +127,17 @@
             });
         });
 
+
     const movieTitle = "";
     const movieRating = "";
 
+    const movieTitle = $("#movieTitle").keyup().val();
+    console.log(movieTitle);
+    const movieRating = $("#movieRating").val();
+
+
     createMovie({title: movieTitle , rating:movieRating})
-        .then(console.log)
-        .catch(console.error);
+
 
     //Allow users to edit existing movies
 
