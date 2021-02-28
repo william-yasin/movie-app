@@ -108,51 +108,53 @@
 
 
     const createMovie = movie => $("#addMovie").click(() => {
-        // const movieTitle = $("#movieTitle").val();
-        // const movieRating = $("#movieRating").val();
-        // const movieId = $("#movieId").val();
+        const movieTitle = $("#movieTitle").text();
+        const movieRating = $("#movieRating").text();
         fetch(`${URL}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(movie
-                // {title: movieTitle,
-                // rating: movieRating
-                // id: movieId}
-            )
+            body: JSON.stringify(movie)
         })
             .then(response => response.json())
             .then(movie => {
                 console.log(`Successfully added ${JSON.stringify(movie)}`);
-                return movie;
+                // return movie;
             });
+})
+    const movieTitle = $("#movieTitle").text();
+    const movieRating = $("#movieRating").text();
+    createMovie({title:movieTitle,rating:movieRating})
 
 
-    //Allow users to edit existing movies
-
-    const editMovie = movie => $("#editMovie").click(() => {
-        const editMovieInput = $("#editMovieInput").val();
-        const movieTitle = $("#movieTitle").text();
-        const movieRating = $("#movieRating").text();
-        // const movieId = $("#movieId").text();
-        fetch(`${URL}/${editMovieInput}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                title: movieTitle,
-                rating: movieRating
-                // id: movieId
-            })
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log(`Successfully edited: ${JSON.stringify(data)}`);
-            });
-    });
+    // createMovie({title: movieTitle, rating: movieRating})
 
 
-}
+        //Allow users to edit existing movies
+
+        // const editMovie = movie => $("#editMovie").click(() => {
+        //     const editMovieInput = $("#editMovieInput").val();
+        //     const movieTitle = $("#movieTitle").text();
+        //     const movieRating = $("#movieRating").text();
+        //     // const movieId = $("#movieId").text();
+        //     fetch(`${URL}/${editMovieInput}`, {
+        //         method: "PUT",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify({
+        //             title: movieTitle,
+        //             rating: movieRating
+        //             // id: movieId
+        //         })
+        //     })
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             console.log(`Successfully edited: ${JSON.stringify(data)}`);
+        //         });
+        // });
+
+
+    }
 
