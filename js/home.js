@@ -107,8 +107,8 @@
     //Allow users to add new movies
 
     const createMovie = movie => $("#addMovie").click(() =>{
-        // const movieTitle = $("#movieTitle").val();
-        // const movieRating = $("#movieRating").val();
+        const movieTitle = $("#movieTitle").val();
+        const movieRating = $("#movieRating").val();
         // const movieId = $("#movieId").val();
         fetch(URL, {
             method:'POST',
@@ -127,9 +127,14 @@
             });
         });
 
+
+    const movieTitle = "";
+    const movieRating = "";
+
     const movieTitle = $("#movieTitle").keyup().val();
     console.log(movieTitle);
     const movieRating = $("#movieRating").val();
+
 
     createMovie({title: movieTitle , rating:movieRating})
 
