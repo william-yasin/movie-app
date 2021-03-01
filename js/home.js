@@ -101,54 +101,69 @@
         reject("Error")
     }))
         .then(response => response.json())
-        .then(data => console.log(data))
+        .then(data => {
+            return JSON.stringify(data);
+        })
+        .then(data => {
+            $("#movies").html(`
+            <p>${data}</p>
+            `)
+        })
         .catch(console.error)
 
+
+    console.log(getMovie);
     //Allow users to add new movies
 
-        $("#addMovie").click(() => {
-            const movieTitle = $("#movieTitle").val();
-            const movieRating = $("#movieRating").val();
-                fetch(URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        title: movieTitle,
-                        rating: movieRating
-                    })
-                })
-                    .then(console.log(JSON.stringify({
-                        title: movieTitle,
-                        rating: movieRating
-                    })))
-                    .catch(console.error)
-        });
-
-        //Allow users to edit existing movies
-
-         $("#movieSearch").click(() => {
-            // const movieTitle = $("#movieTitleEdit").text();
-            // const movieRating = $("#movieRatingEdit").text();
-
-            fetch(`${URL}/${editMovieInput}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    title: movieTitle,
-                    rating: movieRating
-                })
+    $("#addMovie").click(() => {
+        const movieTitle = $("#movieTitle").val();
+        const movieRating = $("#movieRating").val();
+        fetch(URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title: movieTitle,
+                rating: movieRating
             })
-                .then(response => response.json())
-                .then(for(let i=0; i < URL.length; i++){})
-                .then(data => {
-                    console.log(`Successfully edited: ${JSON.stringify(data)}`);
-                });
-        });
+        })
+            .then(console.log(JSON.stringify({
+                title: movieTitle,
+                rating: movieRating
+            })))
+            .catch(console.error)
+    });
+
+    //Allow users to edit existing movies
+
+    $("#movieSearch").click(() => {
+        const movieTitle = $("#movieTitleEdit").text();
+        const movieRating = $("#movieRatingEdit").text();
+        const movieTitleSearch = $("#movie-search").val();
+        fetch(URL, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                title: movieTitle,
+                rating: movieRating
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                for (let i = 0; i < data.length; i++) {
+                    if (movieTitle === "") {
+
+                    }
+                }
+            })
+            .then(data => {
+                console.log(`Successfully edited: ${JSON.stringify(data)}`);
+            });
+    });
 
 
-    }
+}
 
