@@ -96,23 +96,25 @@
     //Started Here
     //This Function fetch all Movies
 
-    const getMovie = new Promise(((resolve, reject) => {
-        resolve(fetch(URL));
+    const getMovie = new Promise((resolve, reject) => {
+        resolve(fetch(URL))
+            .then(response => response.json());
         reject("Error")
-    }))
-        .then(response => response.json())
-        .then(data => {
-            return JSON.stringify(data);
-        })
-        .then(data => {
-            $("#movies").html(`
-            <p>${data}</p>
-            `)
-        })
-        .catch(console.error)
+            .catch(console.error);
+    })
 
-
+    getMovie.then(response => response.json())
+        .then(data => {
+            console.log(data);
+            let html = "";
+            for (const movie of data) {
+                html += `<p>${movie.title} <span> ${movie.rating}</span></p>`;
+            }
+            $("#movies").html(html);
+        })
     console.log(getMovie);
+
+
     //Allow users to add new movies
 
     $("#addMovie").click(() => {
@@ -137,33 +139,64 @@
 
     //Allow users to edit existing movies
 
-    $("#movieSearch").click(() => {
-        const movieTitle = $("#movieTitleEdit").text();
-        const movieRating = $("#movieRatingEdit").text();
-        const movieTitleSearch = $("#movie-search").val();
-        fetch(URL, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                title: movieTitle,
-                rating: movieRating
-            })
-        })
+    $("#movie-search-btn").click(() => {
+        // let movieTitleSearch = $("#movie-search").val();
+        // let movieRating = $("#movieRatingEdit").val();
+        fetch(URL)
             .then(response => response.json())
             .then(data => {
-                for (let i = 0; i < data.length; i++) {
-                    if (movieTitle === "") {
+                let movieTitleSearch = $("#movie-search").val();
+                let movieTitleEdit = $("#movieTitleEdit");
+                let movieRating = $("#movieRatingEdit");
+                let html = "";
 
+                for (let movie of data) {
+                    if (movieTitleSearch.toLowerCase() === movie.title.toLowerCase()) {
+                        console.log(movieTitleSearch);
+                        console.log(movie);
+                        html += movieTitleEdit.text(movieTitleSearch);
                     }
                 }
+                movieTitleEdit.html(html);
             })
-            .then(data => {
-                console.log(`Successfully edited: ${JSON.stringify(data)}`);
-            });
+        // .then(data => {
+        //     console.log(`Successfully edited: ${JSON.stringify(data)}`);
+        // });
     });
 
+
+    // $("#movieSearch").click(() => {
+    //     let movieTitle = $("#movieTitleEdit").val();
+    //     let movieRating = $("#movieRatingEdit").val();
+    //     fetch(URL, {
+    //         method: "PUT",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify({
+    //             title: movieTitle,
+    //             rating: movieRating
+    //         })
+    //     })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             let movieTitleEdit = $("#movieTitleEdit");
+    //             let movieRating = $("#movieRatingEdit").text();
+    //             let movieTitleSearch = $("#movie-search").val();
+    //             let html = "";
+    //             for (let movie of data) {
+    //                 if (movieTitleSearch.toLowerCase() === movie.title) {
+    //                     console.log(movieTitleSearch);
+    //                     console.log(movie.title);
+    //                     html += movieTitleEdit.text(movieTitleSearch);
+    //                 }
+    //             }
+    //             movieTitle.html(html);
+    //         })
+    //     // .then(data => {
+    //     //     console.log(`Successfully edited: ${JSON.stringify(data)}`);
+    //     // });
+    // });
 
 }
 
