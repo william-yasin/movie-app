@@ -1,10 +1,18 @@
 "use strict";
 {
     const URL = "https://thoughtful-equatorial-beech.glitch.me/movies"
-    // const OMDb_URL = "http://www.omdbapi.com/"
-    // const OMDb_KEY = OMDb_API
-    // const OMDb_Title_Search = `?t=${$("#movie-search").val()}&${OMDb_KEY}`
+    const OMDb_URL = "http://www.omdbapi.com/?"
+    const OMDb_KEY = OMDb_API
+    const OMDb_Title_Search = `t=${$("#movie-search").keyup().val()}`
     // add some logic to determine "search criteria" and use correct endpoint (i.e ?t=, ?y=, ?type=)
+
+
+
+        // const omdbSearch = () => fetch(`${OMDb_URL}${OMDb_Title_Search}${OMDb_KEY}`)
+        //     .then(response => response.json())
+        //     .then(data => console.log(data))
+        //
+        // console.log(omdbSearch());
 
 
 // Function fetch all data from json
@@ -93,9 +101,8 @@
 //         .catch(console.error);
 
 
-    //Started Here
-    //This Function fetch all Movies
 
+    // This Function fetch all Movies
     const getMovie = new Promise((resolve, reject) => {
         resolve(fetch(URL))
             .then(response => response.json());
@@ -115,8 +122,8 @@
     console.log(getMovie);
 
 
-    //Allow users to add new movies
 
+    //This Function allow users to ADD new movies
     $("#addMovie").click(() => {
         const movieTitle = $("#movieTitle").val();
         const movieRating = $("#movieRating").val();
@@ -137,66 +144,45 @@
             .catch(console.error)
     });
 
-    //Allow users to edit existing movies
 
-    $("#movie-search-btn").click(() => {
-        // let movieTitleSearch = $("#movie-search").val();
-        // let movieRating = $("#movieRatingEdit").val();
-        fetch(URL)
+
+    //This function allow users to EDIT existing movies
+    $("#movie-search-btn").click((e) => {
+        e.preventDefault() //we dont want to submit button default value
+        const OMDb_URL = "http://www.omdbapi.com/?"
+        const OMDb_KEY = OMDb_API
+        const OMDb_Title_Search = `t=${$("#movie-search").keyup().val()}`
+        fetch(`${OMDb_URL}${OMDb_Title_Search}${OMDb_KEY}`)
             .then(response => response.json())
             .then(data => {
-                let movieTitleSearch = $("#movie-search").val();
-                let movieTitleEdit = $("#movieTitleEdit");
-                let movieRating = $("#movieRatingEdit");
+                console.log(data)
+                return data.id
+            })
+            .then(fetch(URL,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify()
+            })
+            )
+                fetch(URL)
+            .then(response => response.json())
+            .then(data => {
+                const movieTitleSearch = $("#movie-search").val();
+                const movieTitleEdit = $("#movieTitleEdit");
+                const movieRatingEdit = $("#movieRatingEdit");
                 let html = "";
-
                 for (let movie of data) {
                     if (movieTitleSearch.toLowerCase() === movie.title.toLowerCase()) {
-                        console.log(movieTitleSearch);
-                        console.log(movie);
-                        html += movieTitleEdit.text(movieTitleSearch);
+                        html += movieTitleEdit.val(movie.title);
+                        html += movieRatingEdit.val(movie.rating)
                     }
                 }
                 movieTitleEdit.html(html);
             })
-        // .then(data => {
-        //     console.log(`Successfully edited: ${JSON.stringify(data)}`);
-        // });
     });
 
-
-    // $("#movieSearch").click(() => {
-    //     let movieTitle = $("#movieTitleEdit").val();
-    //     let movieRating = $("#movieRatingEdit").val();
-    //     fetch(URL, {
-    //         method: "PUT",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify({
-    //             title: movieTitle,
-    //             rating: movieRating
-    //         })
-    //     })
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             let movieTitleEdit = $("#movieTitleEdit");
-    //             let movieRating = $("#movieRatingEdit").text();
-    //             let movieTitleSearch = $("#movie-search").val();
-    //             let html = "";
-    //             for (let movie of data) {
-    //                 if (movieTitleSearch.toLowerCase() === movie.title) {
-    //                     console.log(movieTitleSearch);
-    //                     console.log(movie.title);
-    //                     html += movieTitleEdit.text(movieTitleSearch);
-    //                 }
-    //             }
-    //             movieTitle.html(html);
-    //         })
-    //     // .then(data => {
-    //     //     console.log(`Successfully edited: ${JSON.stringify(data)}`);
-    //     // });
-    // });
 
 }
 
