@@ -93,7 +93,7 @@
 //         .catch(console.error);
 
 
-//Started Here
+    //Started Here
     //This Function fetch all Movies
 
     const getMovie = new Promise(((resolve, reject) => {
@@ -106,54 +106,48 @@
 
     //Allow users to add new movies
 
-
-    const createMovie = movie => $("#addMovie").click(() => {
-        const movieTitle = $("#movieTitle").text();
-        const movieRating = $("#movieRating").text();
-        fetch(`${URL}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(movie)
-        })
-            .then(response => response.json())
-            .then(movie => {
-                console.log(`Successfully added ${JSON.stringify(movie)}`);
-                // return movie;
-            });
-})
-    const movieTitle = $("#movieTitle").text();
-    const movieRating = $("#movieRating").text();
-    createMovie({title:movieTitle,rating:movieRating})
-
-
-    // createMovie({title: movieTitle, rating: movieRating})
-
+        $("#addMovie").click(() => {
+            const movieTitle = $("#movieTitle").val();
+            const movieRating = $("#movieRating").val();
+                fetch(URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        title: movieTitle,
+                        rating: movieRating
+                    })
+                })
+                    .then(console.log(JSON.stringify({
+                        title: movieTitle,
+                        rating: movieRating
+                    })))
+                    .catch(console.error)
+        });
 
         //Allow users to edit existing movies
 
-        // const editMovie = movie => $("#editMovie").click(() => {
-        //     const editMovieInput = $("#editMovieInput").val();
-        //     const movieTitle = $("#movieTitle").text();
-        //     const movieRating = $("#movieRating").text();
-        //     // const movieId = $("#movieId").text();
-        //     fetch(`${URL}/${editMovieInput}`, {
-        //         method: "PUT",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify({
-        //             title: movieTitle,
-        //             rating: movieRating
-        //             // id: movieId
-        //         })
-        //     })
-        //         .then(response => response.json())
-        //         .then(data => {
-        //             console.log(`Successfully edited: ${JSON.stringify(data)}`);
-        //         });
-        // });
+         $("#movieSearch").click(() => {
+            // const movieTitle = $("#movieTitleEdit").text();
+            // const movieRating = $("#movieRatingEdit").text();
+
+            fetch(`${URL}/${editMovieInput}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    title: movieTitle,
+                    rating: movieRating
+                })
+            })
+                .then(response => response.json())
+                .then(for(let i=0; i < URL.length; i++){})
+                .then(data => {
+                    console.log(`Successfully edited: ${JSON.stringify(data)}`);
+                });
+        });
 
 
     }

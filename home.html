@@ -29,7 +29,7 @@
                 <div>
                     <label for="movie-search">Movie Name</label>
                     <input type="text" class="form-control" id="movie-search" name="movie-name" required>
-                    <button class="btn col-12 mt-3" id="submit" type="submit">Submit</button>
+                    <button class="btn col-12 mt-3" id="movieSearch" type="submit">Submit</button>
                 </div>
             </form>
             <hr class="col-10">
@@ -68,13 +68,25 @@ Movie's rating:<input type="text" id="movieRating">
 <br>
 <button id="addMovie">Add New Movie</button>
 <br>
-Edit a Movie by ID:<input type="text" id="editMovieInput">
+<br>
+Movie's title:<input type="text" id="movieTitleEdit">
+Movie's rating:<input type="text" id="movieRatingEdit">
+<br>
 <button id="editMovie">Edit a Movie</button>
+<form class="form-group col-12">
+    <label for="search-criteria">Movie</label>
+    <select class="form-control" id="searchEdit">
+        <option value="all">All</option>
+        <option value="title">Title</option>
+        <option value="rating">Rating</option>
+        <option value="genre">Genre</option>
+    </select>
+</form>
 
 
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 <script src="js/keys.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"
-        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 <script src="js/home.js"></script>
 
 </body>
