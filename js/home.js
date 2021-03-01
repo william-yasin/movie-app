@@ -3,16 +3,15 @@
     const URL = "https://thoughtful-equatorial-beech.glitch.me/movies"
     const OMDb_URL = "http://www.omdbapi.com/?"
     const OMDb_KEY = OMDb_API
-    const OMDb_Title_Search = `t=${$("#movie-search").keyup().val()}`
+    // const OMDb_Title_Search = `t=${$("#movie-search").keyup().val()}`
     // add some logic to determine "search criteria" and use correct endpoint (i.e ?t=, ?y=, ?type=)
 
 
-
-        // const omdbSearch = () => fetch(`${OMDb_URL}${OMDb_Title_Search}${OMDb_KEY}`)
-        //     .then(response => response.json())
-        //     .then(data => console.log(data))
-        //
-        // console.log(omdbSearch());
+    // const omdbSearch = () => fetch(`${OMDb_URL}${OMDb_Title_Search}${OMDb_KEY}`)
+    //     .then(response => response.json())
+    //     .then(data => console.log(data))
+    //
+    // console.log(omdbSearch());
 
 
 // Function fetch all data from json
@@ -101,7 +100,6 @@
 //         .catch(console.error);
 
 
-
     // This Function fetch all Movies
     const getMovie = new Promise((resolve, reject) => {
         resolve(fetch(URL))
@@ -115,12 +113,11 @@
             console.log(data);
             let html = "";
             for (const movie of data) {
-                html += `<p>${movie.title} <span> ${movie.rating}</span></p>`;
+                html += `<p>${movie.Title} <span> ${movie.imdbRating}</span></p>`;
             }
             $("#movies").html(html);
         })
     console.log(getMovie);
-
 
 
     //This Function allow users to ADD new movies
@@ -145,28 +142,36 @@
     });
 
 
-
     //This function allow users to EDIT existing movies
+
+
     $("#movie-search-btn").click((e) => {
         e.preventDefault() //we dont want to submit button default value
-        const OMDb_URL = "http://www.omdbapi.com/?"
-        const OMDb_KEY = OMDb_API
         const OMDb_Title_Search = `t=${$("#movie-search").keyup().val()}`
-        fetch(`${OMDb_URL}${OMDb_Title_Search}${OMDb_KEY}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                return data.id
-            })
-            .then(fetch(URL,{
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify()
-            })
-            )
-                fetch(URL)
+        omdbQuery(OMDb_Title_Search)
+            .then(data => postMovie(data)
+            .then(getAndDisplayMovies));
+    });
+
+    const omdbQuery = (title) =>
+        fetch(`${OMDb_URL}${title}${OMDb_KEY}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            return data;
+        });
+
+    const postMovie = (data) =>
+        fetch(URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+    const getAndDisplayMovies = () => {
+        fetch(URL)
             .then(response => response.json())
             .then(data => {
                 const movieTitleSearch = $("#movie-search").val();
@@ -174,14 +179,20 @@
                 const movieRatingEdit = $("#movieRatingEdit");
                 let html = "";
                 for (let movie of data) {
-                    if (movieTitleSearch.toLowerCase() === movie.title.toLowerCase()) {
-                        html += movieTitleEdit.val(movie.title);
-                        html += movieRatingEdit.val(movie.rating)
+                    if (movieTitleSearch === movie.Title) {
+                        html += movieTitleEdit.val(movie.Title);
+                        html += movieRatingEdit.val(movie.imdbRating)
                     }
                 }
                 movieTitleEdit.html(html);
-            })
-    });
+            });
+    }
+
+
+
+
+
+
 
 
 }
