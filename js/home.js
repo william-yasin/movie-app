@@ -49,7 +49,7 @@
     });
 
 
-    //This function allow us to get movie from OMDB API to our movies JSON server and prepopulate the data on text box.
+    //This function allow us to seached movie get from OMDB API to our movies JSON server and prepopulate the data on text box.
 
     $("#movie-search-btn").click((e) => {
         e.preventDefault() //we dont want to submit button default value
@@ -83,7 +83,6 @@
         fetch(`${OMDb_URL}${title}${OMDb_KEY}`)
             .then(response => response.json())
             .then(data => {
-                console.log("THis is in the thing" + data)
                 console.log(data);
                 return data;
             });
@@ -145,7 +144,6 @@
             })
         });
 
-    //new Function
 
 
     //This function allow users to delete movie.
