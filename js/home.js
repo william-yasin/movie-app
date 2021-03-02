@@ -44,10 +44,10 @@
                 imdbRating: movieRating
             })
         })
-            // .then(console.log(JSON.stringify({
-            //     Title: movieTitle,
-            //     imdbRating: movieRating
-            // })))
+            .then(console.log(JSON.stringify({
+                Title: movieTitle,
+                imdbRating: movieRating
+            })))
             .catch(console.error)
     });
 
