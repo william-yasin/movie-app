@@ -7,100 +7,9 @@
     // add some logic to determine "search criteria" and use correct endpoint (i.e ?t=, ?y=, ?type=)
 
 
-    // const omdbSearch = () => fetch(`${OMDb_URL}${OMDb_Title_Search}${OMDb_KEY}`)
-    //     .then(response => response.json())
-    //     .then(data => console.log(data))
-    //
-    // console.log(omdbSearch());
 
 
-// Function fetch all data from json
-//     function onLoad() {
-//         return new Promise(((resolve, reject) => {
-//             resolve(fetch(URL)
-//                 .then(response => response.json())
-//                 .then(data => console.log(data)));
-//             reject("Error")
-//         }))
-//     }
-//
-//     onLoad().then(console.log);
-//
-//     const getAllMovies = () => fetch(URL)
-//         .then(response => response.json())
-//         .then(data => {
-//             data.map(function (i) {
-//                 return i
-//             })
-//             const [{title, rating}] = data;
-//             document.write(`<h1>${title}: ${rating}</h1>`);
-//         })
-//         .catch(console.error);
-//
-//     console.log(getAllMovies());
-//     // getAllMovies()
-//     //     .then();
-//     getAllMovies();
-//
-// // Retrieve movie by id (i= with OMDb)
-//     const getMovieById = id => fetch(`${URL}/${id}`)
-//         .then(response => response.json())
-//         .catch(console.error);
-//
-//     getMovieById(2).then(movie => {
-//         const [{rating, title}] = movie
-//         document.write(`<h1>${title}: ${rating}</h1>`);
-//     });
-//
-//     // Retrieve movie by title (t= with OMDb)
-//     const getMovieByTitle = id => fetch(`${URL}/${id}`)
-//         .then(response => response.json())
-//         .catch(console.error);
-//
-//     getMovieByTitle(2).then(movie => {
-//         const [{rating, title}] = movie
-//         document.write(`<h1>${title}: ${rating}</h1>`);
-//     });
-//
-//     // Retrieve movie by rating
-//     const getMovieByRating = id => fetch(`${URL}/${id}`)
-//         .then(response => response.json())
-//         .catch(console.error);
-//
-//     getMovieByRating(2).then(movie => {
-//         const [{rating, title}] = movie
-//         document.write(`<h1>${title}: ${rating}</h1>`);
-//     });
-//
-//     const editMovie = movie => fetch(`${URL}/${movie.id}`, {
-//         method: "PUT",
-//         headers: {
-//             "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify(movie)
-//     })
-//         .then(response => response.json())
-//         .then(data => {
-//             console.log(`Movie edit successful ${JSON.stringify(data)}`)
-//         })
-//         .catch(console.error);
-//
-//     const addMovie = movie => fetch(`${URL}`, {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify(movie)
-//     })
-//         .then(response => response.json())
-//         .then(data => {
-//             console.log(`Movie addition success ${JSON.stringify(movie)}`);
-//             return movie.id;
-//         })
-//         .catch(console.error);
-
-
-    // This Function fetch all Movies
+    // This Function fetch all Movies and rendering them to HTML.
     const getMovie = new Promise((resolve, reject) => {
         resolve(fetch(URL))
             .then(response => response.json());
@@ -108,19 +17,23 @@
             .catch(console.error);
     })
 
+
     getMovie.then(response => response.json())
+
         .then(data => {
             console.log(data);
             let html = "";
             for (const movie of data) {
-                html += `<p>${movie.Title} <span> ${movie.imdbRating}</span></p>`;
+                html += `<p><span style="color: red"><strong>ID:</strong> ${movie.id}</span> <strong>Movie Name:</strong> ${movie.Title} <span><strong>Movie Rating:</strong> ${movie.imdbRating}</span> </p>`
             }
+            $("#loading").hide() // hides loading image
             $("#movies").html(html);
         })
+
     console.log(getMovie);
 
 
-    //This Function allow users to ADD new movies
+    //This Function allow users to ADD new movies.
     $("#addMovie").click(() => {
         const movieTitle = $("#movieTitle").val();
         const movieRating = $("#movieRating").val();
@@ -142,16 +55,31 @@
     });
 
 
-    //This function allow users to EDIT existing movies
-
-
+    //This function allow us to get movie from OMDB API to our movies JSON server and prepopulate the data on text box.
     $("#movie-search-btn").click((e) => {
         e.preventDefault() //we dont want to submit button default value
-        const OMDb_Title_Search = `t=${$("#movie-search").keyup().val()}`
+        // checkDuplicate();
+        const OMDb_Title_Search = `t=${$("#movie-search").val()}`
         omdbQuery(OMDb_Title_Search)
             .then(data => postMovie(data)
             .then(getAndDisplayMovies));
     });
+
+
+    // const checkDuplicate = () =>
+    //     fetch(URL)
+    //         .then(resolve => resolve.json())
+    //         .then(data => {
+    //             data.forEach( movie => {
+    //                 console.log(data);
+    //                 console.log(movie);
+    //                 if (movie.Title.toLowerCase() === $("#movie-search").val().toLowerCase()){
+    //                     return "";
+    //                 } else{
+    //                     return data;
+    //                 }
+    //             })
+    //         })
 
     const omdbQuery = (title) =>
         fetch(`${OMDb_URL}${title}${OMDb_KEY}`)
@@ -177,17 +105,60 @@
                 const movieTitleSearch = $("#movie-search").val();
                 const movieTitleEdit = $("#movieTitleEdit");
                 const movieRatingEdit = $("#movieRatingEdit");
+                const movieId = $("#movieId")
                 let html = "";
                 for (let movie of data) {
-                    if (movieTitleSearch === movie.Title) {
+                    if (movieTitleSearch.toLowerCase() === movie.Title.toLowerCase()) {
                         html += movieTitleEdit.val(movie.Title);
                         html += movieRatingEdit.val(movie.imdbRating)
+                        html += movieId.val(movie.id)
                     }
                 }
                 movieTitleEdit.html(html);
             });
     }
 
+    //This function allow users to edit movie.
+    $("#editMovie").click((e) =>{
+        e.preventDefault()
+            getMovie.then(editMovie)
+                .then(resolve => resolve.json())
+                .then(data => console.log(`Success: edited ${JSON.stringify(data)}`))
+    })
+
+
+    const editMovie = movie =>
+        fetch(`${URL}/${$("#movieId").val()}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Title: $("#movieTitleEdit").val(),
+                imdbRating: $("#movieRatingEdit").val()
+            })
+        })
+
+    //new Function
+
+
+
+    //This function allow users to delete movie.
+    $("#deleteMovie").click((e) =>{
+        e.preventDefault()
+        getMovie.then(deleteMovie)
+            .then(resolve => resolve.json())
+            .then(data => console.log(`Success: deleted ${JSON.stringify(data)}`))
+    })
+
+
+    const deleteMovie = movie =>
+        fetch(`${URL}/${$("#movieId").val()}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
 
 
 
