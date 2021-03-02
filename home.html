@@ -5,19 +5,39 @@
     <title>Title</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 </head>
-<body>
+<body class="container">
 
 <h1 class="text-center bg-light">MOVIES APPLICATION </h1>
 
 
-<div id="loading" class="ml-4" style="background-image: url(img/loading.gif); height: 640px; width: 640px"></div>
+<div id="loading" class="ml-4" style="background-image: url(img/loading.gif); height: 700px; width: 100%"></div>
+
 
 <div>
-    <label for="movie-search">Enter Movie Name that you want to see on the page </label>
-    <input type="text" class="form-control" id="movie-search" name="movie-name" required>
-    <button class="btn col-12 mt-3" id="movie-search-btn" type="submit">Search</button>
-    <div id="movies" class="row"></div>
+   <p class="text-center">Enter Movie Name that you want to see on the page</p>
+    <input type="text" class="form-control col-12 ml-2" id="movie-search" name="movie-name" required>
+    <button class="btn btn-primary col-12 ml-2" id="movie-search-btn" type="submit">Search</button>
 </div>
+
+
+
+<div id="movies" class="row"></div>
+<!--<div class="card" style="width: 18rem;">-->
+<!--    <img src="..." class="card-img-top" alt="...">-->
+<!--    <div class="card-body">-->
+<!--        <h5 class="card-title">Movie Title</h5>-->
+<!--        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+<!--    </div>-->
+<!--    <ul class="list-group list-group-flush">-->
+<!--        <li class="list-group-item">Movie Rating</li>-->
+<!--        <li class="list-group-item">Genre</li>-->
+<!--    </ul>-->
+<!--</div>-->
+
+
+
+
+
 <br>
 <br>
 <br>
@@ -28,7 +48,7 @@ Movie's rating:<input type="text" id="movieRating">
 <button id="addMovie">Add New Movie</button>
 <br>
 <br>
-Edit Movie by ID:<input type="text" id="movieId">
+ID:<input type="text" id="movieId">
 Movie's title:<input type="text" id="movieTitleEdit">
 Movie's rating:<input type="text" id="movieRatingEdit">
 <br>
