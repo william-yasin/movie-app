@@ -7,13 +7,10 @@
     // add some logic to determine "search criteria" and use correct endpoint (i.e ?t=, ?y=, ?type=)
 
 
-
-
     // This Function fetch all Movies and rendering them to HTML.
     const getMovies = fetch(URL)
-            .then(response => response.json())
-            .catch(console.error)
-
+        .then(response => response.json())
+        .catch(console.error);
 
 
     getMovies
@@ -25,7 +22,7 @@
             }
             $("#loading").hide() // hides loading image
             $("#movies").html(html);
-        })
+        });
 
     console.log(getMovies);
 
@@ -52,8 +49,6 @@
     });
 
 
-
-
     //This function allow us to get movie from OMDB API to our movies JSON server and prepopulate the data on text box.
 
     $("#movie-search-btn").click((e) => {
@@ -63,7 +58,6 @@
             .then(data => postMovie(data)
                 .then(getAndDisplayMovies));
     });
-
 
 
     // const checkDuplicateAndPost = () =>
@@ -87,12 +81,12 @@
 
     const omdbQuery = (title) =>
         fetch(`${OMDb_URL}${title}${OMDb_KEY}`)
-        .then(response => response.json())
-        .then(data => {
-            console.log("THis is in the thing" + data)
-            console.log(data);
-            return data;
-        });
+            .then(response => response.json())
+            .then(data => {
+                console.log("THis is in the thing" + data)
+                console.log(data);
+                return data;
+            });
 
     const postMovie = (data) =>
         fetch(URL, {
@@ -121,23 +115,22 @@
                 }
                 movieTitleEdit.html(html);
             })
-            // .then(data => {
-            //     console.log(data);
-            //     let html = "";
-            //     for (const movie of data) {
-            //         html += `<p><span><strong>ID:</strong> ${movie.id}</span> <strong>Movie Name:</strong> ${movie.Title} <span><strong>Movie Rating:</strong> ${movie.imdbRating}</span> </p>`
-            //     }
-            //     $("#movies").html(html);
-            // })
+        // .then(data => {
+        //     console.log(data);
+        //     let html = "";
+        //     for (const movie of data) {
+        //         html += `<p><span><strong>ID:</strong> ${movie.id}</span> <strong>Movie Name:</strong> ${movie.Title} <span><strong>Movie Rating:</strong> ${movie.imdbRating}</span> </p>`
+        //     }
+        //     $("#movies").html(html);
+        // })
     }
 
     //This function allow users to edit movie.
-    $("#editMovie").click((e) =>{
+    $("#editMovie").click((e) => {
         e.preventDefault()
-            getMovies.then(editMovie)
-                .then(resolve => resolve.json())
-                .then(data => console.log(`Success: edited ${JSON.stringify(data)}`))
-    })
+        getMovies.then(editMovie)
+            .then(data => console.log(`Success: edited ${JSON.stringify(data)}`))
+    });
 
 
     const editMovie = movie =>
@@ -150,19 +143,17 @@
                 Title: $("#movieTitleEdit").val(),
                 imdbRating: $("#movieRatingEdit").val()
             })
-        })
+        });
 
     //new Function
 
 
-
     //This function allow users to delete movie.
-    $("#deleteMovie").click((e) =>{
+    $("#deleteMovie").click((e) => {
         e.preventDefault()
         getMovies.then(deleteMovie)
-            .then(resolve => resolve.json())
             .then(data => console.log(`Success: deleted ${JSON.stringify(data)}`))
-    })
+    });
 
 
     const deleteMovie = movie =>
@@ -171,12 +162,7 @@
             headers: {
                 'Content-Type': 'application/json'
             }
-        })
-
-
-
-
-
+        });
 
 
 }
