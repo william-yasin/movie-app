@@ -15,7 +15,7 @@
 
     getMovies
         .then(data => {
-            console.log(data);
+            // console.log(data);
             let html = "";
             for (const movie of data) {
                 html += `<p><span style="color: red"><strong>ID:</strong> ${movie.id}</span> <strong>Movie Name:</strong> ${movie.Title} <span><strong>Movie Rating:</strong> ${movie.imdbRating}</span> </p>`
@@ -24,7 +24,7 @@
             $("#movies").html(html);
         });
 
-    console.log(getMovies);
+    // console.log(getMovies);
 
 
     //This Function allow users to ADD new movies.
@@ -51,33 +51,33 @@
 
     //This function allow us to seached movie get from OMDB API to our movies JSON server and prepopulate the data on text box.
 
-    $("#movie-search-btn").click((e) => {
-        e.preventDefault() //we dont want to submit button default value
-        const OMDb_Title_Search = `t=${$("#movie-search").keyup().val()}`
-        omdbQuery(OMDb_Title_Search)
-            .then(data => postMovie(data)
-                .then(getAndDisplayMovies));
-    });
+    // $("#movie-search-btn").click((e) => {
+    //     e.preventDefault() //we dont want to submit button default value
+    //     const OMDb_Title_Search = `t=${$("#movie-search").keyup().val()}`
+    //     omdbQuery(OMDb_Title_Search)
+    //         .then(data => postMovie(data)
+    //             .then(getAndDisplayMovies));
+    // });
 
 
-    // const checkDuplicateAndPost = () =>
-    //    getMovies
-    //        .then(data => {
-    //            console.log(data.length);
-    //            data.forEach( (movie) => {
-    //                console.log(movie);
-    //                if (movie.Title.toLowerCase() === $("#movie-search").val().toLowerCase()){
-    //                     console.log("this matches something in the database")
-    //                 } else {
-    //                    const OMDb_Title_Search = `t=${$("#movie-search").val()}`
-    //                    omdbQuery(OMDb_Title_Search)
-    //                        .then(data => postMovie(data))
-    //                         .then(getAndDisplayMovies);
-    //                 }
-    //             })
-    //         })
-    //
-    // $("#movie-search-btn").click(checkDuplicateAndPost);
+    const checkDuplicateAndPost = () =>
+       getMovies
+           .then(data => {
+               console.log(data.length);
+               data.forEach( (movie) => {
+                   console.log(movie);
+                   if (movie.Title.toLowerCase() === $("#movie-search").val().toLowerCase()){
+                        console.log("this matches something in the database")
+                    } else {
+                       const OMDb_Title_Search = `t=${$("#movie-search").val()}`
+                       omdbQuery(OMDb_Title_Search)
+                           .then(data => postMovie(data))
+                            .then(getAndDisplayMovies);
+                    }
+                })
+            })
+
+    $("#movie-search-btn").click(checkDuplicateAndPost);
 
     const omdbQuery = (title) =>
         fetch(`${OMDb_URL}${title}${OMDb_KEY}`)
