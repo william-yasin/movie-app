@@ -61,21 +61,24 @@
 
 
     const checkDuplicateAndPost = () =>
-       getMovies
-           .then(data => {
-               console.log(data.length);
-               data.forEach( (movie) => {
-                   console.log(movie);
-                   if (movie.Title.toLowerCase() === $("#movie-search").val().toLowerCase()){
-                        console.log("this matches something in the database")
-                    } else {
-                       const OMDb_Title_Search = `t=${$("#movie-search").val()}`
-                       omdbQuery(OMDb_Title_Search)
-                           .then(data => postMovie(data))
-                            .then(getAndDisplayMovies);
+        getMovies
+            .then(data => {
+                let isInDB = false;
+                console.log(data.length);
+                data.forEach((movie) => {
+                    console.log(movie);
+                    if (movie.Title.toLowerCase() === $("#movie-search").val().toLowerCase()) {
+                        isInDB = true;
+                        console.log("this matches something in the database");
                     }
-                })
-            })
+                });
+                if (!isInDB) {
+                    const OMDb_Title_Search = `t=${$("#movie-search").val()}`
+                    omdbQuery(OMDb_Title_Search)
+                        .then(data => postMovie(data))
+                        .then(getAndDisplayMovies);
+                }
+            });
 
     $("#movie-search-btn").click(checkDuplicateAndPost);
 
@@ -143,7 +146,6 @@
                 imdbRating: $("#movieRatingEdit").val()
             })
         });
-
 
 
     //This function allow users to delete movie.
