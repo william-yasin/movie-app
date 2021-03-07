@@ -13,7 +13,10 @@
         .catch(console.error);
 
 
-    const movieRendering = () => getMovies.then(data => {
+    const movieRendering = () =>
+        fetch(URL)
+            .then(response => response.json())
+            .then(data => {
             // console.log(data);
             let html = "";
             for (const movie of data) {
@@ -58,7 +61,7 @@
     });
 
 
-    //This function allow us to seached movie get from OMDB API to our movies JSON server and prepopulate the data on text box.
+    //This function allow us to search movie get from OMDB API to our movies JSON server and prepopulate the data on text box.
 
     // $("#movie-search-btn").click((e) => {
     //     e.preventDefault() //we dont want to submit button default value
@@ -85,8 +88,10 @@
                     const OMDb_Title_Search = `t=${$("#movie-search").val()}`
                     omdbQuery(OMDb_Title_Search)
                         .then(data => postMovie(data))
-                        .then(getAndDisplayMovies);
+                        .then(getAndDisplayMovies)
+                        .then(movieRendering);
                 }
+
             });
 
     $("#movie-search-btn").click(checkDuplicateAndPost);
@@ -106,7 +111,7 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        });
+        }).then(movieRendering);
 
     const getAndDisplayMovies = () => {
         fetch(URL)
@@ -141,11 +146,11 @@
         e.preventDefault()
         getMovies.then(editMovie)
             // .then(data => console.log(`Success: edited ${JSON.stringify(data)}`))
-
+            .then(movieRendering);
     });
 
 
-    const editMovie = movie => {
+    const editMovie = movie =>
         fetch(`${URL}/${$("#movieId").val()}`, {
             method: 'PUT',
             headers: {
@@ -156,14 +161,15 @@
                 imdbRating: $("#movieRatingEdit").val()
             })
         })
-            .then(movieRendering);
-    }
+
+
 
     //This function allow users to delete movie.
     $("#deleteMovie").click((e) => {
         e.preventDefault()
         getMovies.then(deleteMovie)
             .then(data => console.log(`Success: deleted ${JSON.stringify(data)}`))
+            .then(movieRendering)
     });
 
 
@@ -174,6 +180,8 @@
                 'Content-Type': 'application/json'
             }
         });
+
+
 
 
 }
