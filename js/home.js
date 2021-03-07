@@ -141,11 +141,11 @@
         e.preventDefault()
         getMovies.then(editMovie)
             // .then(data => console.log(`Success: edited ${JSON.stringify(data)}`))
-            .then(movieRendering)
+
     });
 
 
-    const editMovie = movie =>
+    const editMovie = movie => {
         fetch(`${URL}/${$("#movieId").val()}`, {
             method: 'PUT',
             headers: {
@@ -155,8 +155,9 @@
                 Title: $("#movieTitleEdit").val(),
                 imdbRating: $("#movieRatingEdit").val()
             })
-        });
-
+        })
+            .then(movieRendering);
+    }
 
     //This function allow users to delete movie.
     $("#deleteMovie").click((e) => {
