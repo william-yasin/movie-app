@@ -131,14 +131,6 @@
                 }
                 movieTitleEdit.html(html);
             })
-        // .then(data => {
-        //     console.log(data);
-        //     let html = "";
-        //     for (const movie of data) {
-        //         html += `<p><span><strong>ID:</strong> ${movie.id}</span> <strong>Movie Name:</strong> ${movie.Title} <span><strong>Movie Rating:</strong> ${movie.imdbRating}</span> </p>`
-        //     }
-        //     $("#movies").html(html);
-        // })
     }
 
     //This function allow users to edit movie.
