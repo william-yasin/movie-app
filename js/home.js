@@ -14,24 +14,24 @@
 
 
     const movieRendering = () => getMovies.then(data => {
-            // console.log(data);
-            let html = "";
-            for (const movie of data) {
-                html+= `<div class="card mb-2 mr-1 ml-1 mt-2" style="width: 18rem;">`
-                html += `<img src="${movie.Poster}" class="card-img-top" alt="moviePoster" style="height: 22em; width:100% ">`
-                html += `<div class="card-body">`
-                html += `<h5 id="movieCardTitle" class="card-title"><span>ID: ${movie.id} </span>${movie.Title}</h5>`
-                html += `<p class="card-text"> ${movie.Plot}</p>`
-                html += `</div>`
-                html += `<ul class="list-group list-group-flush">`
-                html += `<li class="list-group-item">${movie.imdbRating}</li>`
-                html += `<li class="list-group-item">${movie.Genre}</li>`
-                html += `</ul>`
-                html += `</div>`
-            }
-            $("#loading").hide() // hides loading image
-            $("#movies").html(html);
-        });
+        // console.log(data);
+        let html = "";
+        for (const movie of data) {
+            html += `<div class="card mb-2 mr-1 ml-1 mt-2" style="width: 18rem;">`
+            html += `<img src="${movie.Poster}" class="card-img-top" alt="moviePoster" style="height: 22em; width:100% ">`
+            html += `<div class="card-body">`
+            html += `<h5 id="movieCardTitle" class="card-title"><span>ID: ${movie.id} </span>${movie.Title}</h5>`
+            html += `<p class="card-text"> ${movie.Plot}</p>`
+            html += `</div>`
+            html += `<ul class="list-group list-group-flush">`
+            html += `<li class="list-group-item">${movie.imdbRating}</li>`
+            html += `<li class="list-group-item">${movie.Genre}</li>`
+            html += `</ul>`
+            html += `</div>`
+        }
+        $("#loading").hide() // hides loading image
+        $("#movies").html(html);
+    });
 
     console.log(movieRendering());
 
@@ -59,14 +59,6 @@
 
 
     //This function allow us to seached movie get from OMDB API to our movies JSON server and prepopulate the data on text box.
-
-    // $("#movie-search-btn").click((e) => {
-    //     e.preventDefault() //we dont want to submit button default value
-    //     const OMDb_Title_Search = `t=${$("#movie-search").keyup().val()}`
-    //     omdbQuery(OMDb_Title_Search)
-    //         .then(data => postMovie(data)
-    //             .then(getAndDisplayMovies));
-    // });
 
 
     const checkDuplicateAndPost = () =>
@@ -140,7 +132,7 @@
     $("#editMovie").click((e) => {
         e.preventDefault()
         getMovies.then(editMovie)
-            // .then(data => console.log(`Success: edited ${JSON.stringify(data)}`))
+        // .then(data => console.log(`Success: edited ${JSON.stringify(data)}`))
 
     });
 
