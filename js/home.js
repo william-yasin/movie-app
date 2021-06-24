@@ -17,7 +17,7 @@
         // console.log(data);
         let html = "";
         for (const movie of data) {
-            html += `<div class="card mb-2 mr-1 ml-1 mt-2" style="width: 18rem;">`
+            html += `<div class="card col-3" style="width: 18rem;">`
             html += `<img src="${movie.Poster}" class="card-img-top" alt="moviePoster" style="height: 22em; width:100% ">`
             html += `<div class="card-body">`
             html += `<h5 id="movieCardTitle" class="card-title"><span>ID: ${movie.id} </span>${movie.Title}</h5>`
@@ -29,7 +29,6 @@
             html += `</ul>`
             html += `</div>`
         }
-        $("#loading").hide() // hides loading image
         $("#movies").html(html);
     });
 
@@ -118,14 +117,6 @@
                 }
                 movieTitleEdit.html(html);
             })
-        // .then(data => {
-        //     console.log(data);
-        //     let html = "";
-        //     for (const movie of data) {
-        //         html += `<p><span><strong>ID:</strong> ${movie.id}</span> <strong>Movie Name:</strong> ${movie.Title} <span><strong>Movie Rating:</strong> ${movie.imdbRating}</span> </p>`
-        //     }
-        //     $("#movies").html(html);
-        // })
     }
 
     //This function allow users to edit movie.
@@ -158,7 +149,6 @@
             .then(data => console.log(`Success: deleted ${JSON.stringify(data)}`))
     });
 
-
     const deleteMovie = movie =>
         fetch(`${URL}/${$("#movieId").val()}`, {
             method: 'DELETE',
@@ -166,7 +156,6 @@
                 'Content-Type': 'application/json'
             }
         });
-
 
 }
 
